@@ -1,7 +1,11 @@
 //Hash Table Data Structure
 
 class HashSet {
-  //
+  /*
+   * Can set a number of buckets for the hash table
+   * Set for one value (key), it can be modified to store key - value pairs
+   * 
+  */
   size : number;
   object : {
       [key: number] : (number | string)[]
@@ -11,6 +15,7 @@ class HashSet {
       this.object = {}
   }
   
+  // Creates the hash for the hash table object with the size of buckets
   createHash( key : number ): number {
       return (key % this.size)
   }
@@ -37,6 +42,7 @@ class HashSet {
       values.splice(values.indexOf(key), 1)
   }
 
+  //Checks if a value exists in the hash table object
   contains(key: number): boolean {
       let hash = this.createHash(key)
       //checks hash
