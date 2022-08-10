@@ -8,8 +8,11 @@ class BinaryST {
   rootNode : TreeNode;
   treeHeight : number;
 
-  constructor() {
-    this.treeHeight = 0
+  constructor(nums : number[] = []) {
+    this.nodes = []
+    if( nums.length > 0 ) {
+      nums.forEach( num => this.insertValue(num) )
+    }
   }
 
   insertValue( val : number, node : TreeNode | null = this.rootNode ) : void {
@@ -19,6 +22,7 @@ class BinaryST {
       let newNode : TreeNode = new TreeNode(val, 0)
       this.rootNode = newNode
       this.nodes.push(newNode)
+      this.treeHeight = 0
       return
     }
 
@@ -28,6 +32,7 @@ class BinaryST {
         let newNode : TreeNode = new TreeNode(val, node.height + 1)
         node.leftChild = newNode
         this.nodes.push(newNode)
+        if( newNode.height > this.treeHeight ) this.treeHeight = newNode.height
         return
       } else {
         this.insertValue(val, node.leftChild)
@@ -37,6 +42,7 @@ class BinaryST {
           let newNode : TreeNode = new TreeNode(val, node.height + 1)
           node.rightChild = newNode
           this.nodes.push(newNode)
+          if( newNode.height > this.treeHeight ) this.treeHeight = newNode.height
           return
         } else {
           this.insertValue(val, node.rightChild)
@@ -49,8 +55,16 @@ class BinaryST {
 
   }
 
-  search( value : number) {
+  search( value : number, node : TreeNode = this.rootNode) : boolean {
+    let foundValue : boolean = false
+    if( value === node.value ) {
+      foundValue = true
+    } else {
+      if( value <= node.value && node.leftChild !== null ) return this.search(value, node.leftChild)
+      if( value > node.value && node.rightChild !== null ) return this.search(value, node.rightChild)
+    }
 
+    return foundValue
   }
 
 }
